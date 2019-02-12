@@ -18,9 +18,12 @@ Please put the solution up on GitHub and send the link to me. If you have some o
 
 ##Getting started
 Allocated time:
+
 * 30mins going a bit deeper through the Tradeshift UI documentation
 * 15mins boilerplate setup
+* 20mins basic triangle functions
 
 Activities:
+
 * Boilerplate app
 * Brief reflection on what Tradeshift UI components could be used

@@ -2,14 +2,15 @@
 <html>
 
 <head>
-  <title>My App</title>
+  <title>Tradeshift Triagle Challenge</title>
   <meta name="viewport" content="width=device-width" />
-  <meta name="ts-app-title" content="My App" />
-  <link rel="ts-app-icon" href="my-icon.svg" />
+  <meta name="ts-app-title" content="Tradeshift Triagle Challenge" />
+  <link rel="ts-app-icon icon" href="favicon-32x32.png" />
 
-  <link rel="stylesheet" href="//d5wfroyti11sa.cloudfront.net/prod/client/ts-12.0.1.min.css" />
-  <script src="//d5wfroyti11sa.cloudfront.net/prod/client/ts-12.0.1.min.js"></script>
-  <script src="//app.js"></script>
+  <link rel="stylesheet" href="http://d5wfroyti11sa.cloudfront.net/prod/client/ts-12.0.1.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="http://d5wfroyti11sa.cloudfront.net/prod/client/ts-12.0.1.min.js"></script>
+  <script src="app.js"></script>
 </head>
 
 <body>
@@ -17,9 +18,28 @@
     <div data-ts="Main">
       <div data-ts="Content">
         <div data-ts="Panel">
-          <div id="display"></div>
-          <div id="input"></div>
-          <div id="output"></div>
+          <div id="display">
+            <canvas></canvas>
+          </div>
+          <div id="input">
+            <form data-ts="Form">
+              <fieldset>
+                <label>
+                  <span>a</span>
+                  <input name="a" type="number" />
+                </label>
+                <label>
+                  <span>b</span>
+                  <input name="b" type="number" />
+                </label>
+                <label>
+                  <span>c</span>
+                  <input name="c" type="number" />
+                </label>
+              </fieldset>
+            </form>
+          </div>
+          <div id="info"></div>
         </div>
       </div>
     </div>
