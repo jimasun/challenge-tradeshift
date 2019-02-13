@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width" />
   <meta name="ts-app-title" content="Tradeshift Triagle Challenge" />
   <link rel="ts-app-icon icon" href="favicon-32x32.png" />
-
   <link rel="stylesheet" href="http://d5wfroyti11sa.cloudfront.net/prod/client/ts-12.0.1.min.css" />
   <link rel="stylesheet" href="style.css" />
   <script src="http://d5wfroyti11sa.cloudfront.net/prod/client/ts-12.0.1.min.js"></script>
@@ -26,17 +25,25 @@
               <fieldset>
                 <label>
                   <span>a</span>
-                  <input name="a" type="number" />
+                  <input name="a" type="number">
                 </label>
                 <label>
                   <span>b</span>
-                  <input name="b" type="number" />
+                  <input name="b" type="number">
                 </label>
                 <label>
                   <span>c</span>
-                  <input name="c" type="number" />
+                  <input name="c" type="number">
                 </label>
               </fieldset>
+              <button data-ts="Button" class="ts-primary" name="button">
+                <span style="display:none;">Evaluate</span>
+                <i class="ts-icon-proceed"></i>
+              </button>
+              <label>
+                <span>auto</span>
+                <input name="switch" type="checkbox">
+              </label>
             </form>
           </div>
           <div id="info"></div>

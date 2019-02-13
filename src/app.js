@@ -1,27 +1,57 @@
 // init
 ts.ui.ready(() => {
   console.info('ts.ui.ready')
-})
 
-const initUi = () => {
-  const formItems = document.querySelector('form')
-  formItems.namedItem('a')
-}
+  const ui = new Ui()
+  ui.onChangeCallback = ([a, b, c]) => {
+    typeOfTriangle([a, b, c])
+  }
+})
 
 
 // ui module
-const toggleAutoEvaluation = () => {
-  const formItems = document.querySelector('form')
-  formItems.elements.array.forEach(element => {
-    if (element.type == 'number')
-      element.addEventListener('onChange', event => {
-        evaluate()
-      })
-  });
-}
+class Ui {
 
-const evaluate = () => {
-  typeOfTriangle()
+  constructor() {
+    const form = document.querySelector('form')
+    this.a = form.elements.namedItem('a')
+    this.b = form.elements.namedItem('b')
+    this.c = form.elements.namedItem('c')
+    this.button = form.elements.namedItem('button')
+    this.switch = form.elements.namedItem('switch')
+
+    this.autoEvaluate =
+    this.button.disabled = 
+    this.switch.checked = true
+
+    this.button.addEventListener('click', event => {
+      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+    })
+
+    this.switch.addEventListener('change', event => {
+      this.toggleAutoEvaluate()
+      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+    })
+
+    ;[...form.elements].forEach(element => {
+      if (element.type == 'number')
+        element.addEventListener('onChange', this.onChangeEventListener)
+    })
+  }
+
+  toggleAutoEvaluate() {
+    this.autoEvaluate = this.button.disabled = !this.autoEvaluate
+  }
+
+  onChangeEventListener(event) {
+    if (this.autoEvaluate) {
+      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+    }
+  }
+
+  onChangeCallback() {
+    throw new Error('not implemented: f([a, b, c])')
+  }
 }
 
 

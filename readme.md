@@ -22,8 +22,6 @@ Allocated time:
 * 30mins going a bit deeper through the Tradeshift UI documentation
 * 15mins boilerplate setup
 * 20mins basic triangle functions
-
-Activities:
-
-* Boilerplate app
-* Brief reflection on what Tradeshift UI components could be used
+* 20mins basic UI functionality
+* 20mins added some Tradeshift UI elements
+* 30mins advancing with the UI implementation
