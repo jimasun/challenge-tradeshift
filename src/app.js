@@ -1,7 +1,7 @@
 // init
 ts.ui.ready(() => {
   const ui = new Ui()
-  ui.onChangeCallback = typeOfTriangle
+  ui.evaluationCallback = typeOfTriangle
   ui.validateInput = isValidSideValue
 })
 
@@ -29,24 +29,22 @@ class Ui {
     })
 
     this.switch.addEventListener('change', event => {
-      this.toggleAutoEvaluate()
-      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+      this.autoEvaluate = this.button.disabled = !this.autoEvaluate
+      if (this.autoEvaluate) {
+        this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+      }
     })
 
       ;[...form.elements].forEach(element => {
         if (element.type == 'number')
-          element.addEventListener('onChange', this.onChangeEventListener)
+          element.addEventListener('keydown', event => this.onChangeEventListener(event))
       })
-  }
-
-  toggleAutoEvaluate() {
-    this.autoEvaluate = this.button.disabled = !this.autoEvaluate
   }
 
   onChangeEventListener(event) {
     clearTimeout(this.autoEvaluationTimeoutId)
     this.autoEvaluationTimeoutId = setTimeout(() => {
-      const inputCheck = validateInput(event.target.value)
+      const inputCheck = this.validateInput(event.target.value)
       if (!inputCheck.isValid) {
         console.log(inputCheck.msg)
         return false
@@ -56,7 +54,12 @@ class Ui {
     }, this.autoEvaluationTimeout)
   }
 
-  onChangeCallback() {
+  onChangeCallback([a, b, c]) {
+    const triange = this.evaluationCallback([a, b, c])
+    ts.ui.Notification.success('The \u25b3 is ' + triange.type + '\r\nThe congruent sides are: ' + triange.cong);
+  }
+
+  evaluationCallback() {
     throw new Error('not implemented: f([a, b, c])')
   }
 
@@ -68,28 +71,26 @@ class Ui {
 
 // triange module
 const typeOfTriangle = ([a, b, c]) => {
-  if (!isValidSideValue(a) || !isValidSideValue(b) && !isValidSideValue(c)) {
+  if (!isValidSideValue(a).isValid || !isValidSideValue(b).isValid || !isValidSideValue(c).isValid) {
     throw new Error('invalid value(s) provided. use `isValidSideValue(int a)`')
   }
-
   const triangle = [a, b, c]
-
   if (isEquilateral(triangle)) return {
-    msg: 'equilateral',
-    calc: triangleCongruentSides(triangle)
+    type: 'equilateral',
+    cong: triangleCongruentSides(triangle)
   }
   if (isIsosceles(triangle)) return {
-    msg: 'isoscel',
-    calc: triangleCongruentSides(triangle)
+    type: 'isoscel',
+    cong: triangleCongruentSides(triangle)
   }
   return {
-    msg: 'scalane',
-    calc: 'a != b != c'
+    type: 'scalane',
+    cong: 'a != b != c'
   }
 }
 
 const isEquilateral = ([a, b, c]) => {
-  return a === b === c
+  return a === b && a === c && b === c
 }
 
 const isIsosceles = ([a, b, c]) => {
