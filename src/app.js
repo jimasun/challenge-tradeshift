@@ -1,7 +1,5 @@
 // init
 ts.ui.ready(() => {
-  console.info('ts.ui.ready')
-
   const ui = new Ui()
   ui.onChangeCallback = typeOfTriangle
   ui.validateInput = isValidSideValue
@@ -18,6 +16,9 @@ class Ui {
     this.c = form.elements.namedItem('c')
     this.button = form.elements.namedItem('button')
     this.switch = form.elements.namedItem('switch')
+
+    this.autoEvaluationTimeout = 500
+    this.autoEvaluationTimeoutId = null
 
     this.autoEvaluate =
       this.button.disabled =
@@ -43,13 +44,16 @@ class Ui {
   }
 
   onChangeEventListener(event) {
-    const inputCheck = validateInput(event.target.value)
-    if (!inputCheck.isValid) {
-      console.log(inputCheck.msg)
-      return false
-    }
-    if (!this.autoEvaluate) return
-    this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+    clearTimeout(this.autoEvaluationTimeoutId)
+    this.autoEvaluationTimeoutId = setTimeout(() => {
+      const inputCheck = validateInput(event.target.value)
+      if (!inputCheck.isValid) {
+        console.log(inputCheck.msg)
+        return false
+      }
+      if (!this.autoEvaluate) return
+      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+    }, this.autoEvaluationTimeout)
   }
 
   onChangeCallback() {
