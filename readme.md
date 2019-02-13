@@ -25,3 +25,4 @@ Allocated time:
 * 20mins basic UI functionality
 * 20mins added some Tradeshift UI elements
 * 30mins advancing with the UI implementation
+* 20mins added some validation

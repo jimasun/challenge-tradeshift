@@ -21,7 +21,7 @@
             <canvas></canvas>
           </div>
           <div id="input">
-            <form data-ts="Form">
+            <form data-ts="Form" name="form">
               <fieldset>
                 <label>
                   <span>a</span>
@@ -35,6 +35,11 @@
                   <span>c</span>
                   <input name="c" type="number">
                 </label>
+                <!-- <dl class="ts-errors">
+                  <dt>Error: Triangle side is invalid</dt>
+                  <dd>Must be a number</dd>
+                  <dd>Must be greater than 0</dd>
+                </dl> -->
               </fieldset>
               <button data-ts="Button" class="ts-primary" name="button">
                 <span style="display:none;">Evaluate</span>
