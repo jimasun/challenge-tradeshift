@@ -1,0 +1,18 @@
+{
+  "minified": false,
+  "sourceMaps": false,
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "./node_modules"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": "> 0.2%, not dead, not ie <= 11, last 1 version"
+      }
+    ]
+  ]
+}
