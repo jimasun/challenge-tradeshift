@@ -1,4 +1,5 @@
-// init
+/* global ts */
+
 ts.ui.ready(() => {
   drawTriangle()
   const ui = new Ui()
@@ -7,11 +8,9 @@ ts.ui.ready(() => {
   ui.tValCb = isValidTriangle
 })
 
-
 // ui module
 class Ui {
-
-  constructor() {
+  constructor () {
     const form = document.querySelector('form')
     this.a = form.elements.namedItem('a')
     this.b = form.elements.namedItem('b')
@@ -23,38 +22,39 @@ class Ui {
     this.autoEvaluationTimeoutId = null
 
     this.autoEvaluate =
-      this.button.disabled =
-      this.switch.checked = true
+    this.button.disabled =
+    this.switch.checked = true
 
     this.button.addEventListener('click', event => this.onButtonClickEventListener(event))
 
     this.switch.addEventListener('change', event => this.onSwitchChangeEventListener(event))
 
-      ;[...form.elements].forEach(element => {
-        if (element.type == 'number')
-          element.addEventListener('keydown', event => this.onInputChangeEventListener(event))
-      })
+    ;[...form.elements].forEach(element => {
+      if (element.type === 'number') {
+        element.addEventListener('keydown', event => this.onInputChangeEventListener(event))
+      }
+    })
   }
 
-  onButtonClickEventListener(event) {
+  onButtonClickEventListener (event) {
     if (this.validateTriangle(true)) {
       this.evaluateTriange([this.a.value, this.b.value, this.c.value])
     }
   }
 
-  onSwitchChangeEventListener(event) {
+  onSwitchChangeEventListener (event) {
     this.autoEvaluate = this.button.disabled = !this.autoEvaluate
     if (this.autoEvaluate && this.validateTriangle(true)) {
       this.evaluateTriange([this.a.value, this.b.value, this.c.value])
     }
   }
 
-  onInputChangeEventListener(event) {
+  onInputChangeEventListener (event) {
     clearTimeout(this.autoEvaluationTimeoutId)
     this.autoEvaluationTimeoutId = setTimeout(() => {
-      const inputCheck = this.tSideValCb(event.target.value)
+      const inputCheck = this.tSideValCb(+event.target.value)
       if (!inputCheck.isValid) {
-        console.log(inputCheck.msg)
+        ts.ui.Notification.warning(inputCheck.msg)
         return false
       }
       if (!this.autoEvaluate || !this.validateTriangle(false)) return
@@ -62,21 +62,21 @@ class Ui {
     }, this.autoEvaluationTimeout)
   }
 
-  evaluateTriange([a, b, c]) {
-    const triange = this.tEvalCb([a, b, c])
-    ts.ui.Notification.info('The **\u25b3** is **' + triange.type + '**\r\nThe congruent sides are: `' + triange.cong + '`');
+  evaluateTriange ([a, b, c]) {
+    const triange = this.tEvalCb([+a, +b, +c])
+    ts.ui.Notification.info('The **\u25b3** is **' + triange.type + '**\r\nThe congruent sides are: `' + triange.cong + '`')
   }
 
-  validateTriangle(showErrors) {
-    const a = this.tSideValCb(this.a.value),
-      b = this.tSideValCb(this.b.value),
-      c = this.tSideValCb(this.c.value)
+  validateTriangle (showErrors) {
+    const a = this.tSideValCb(+this.a.value)
+    const b = this.tSideValCb(+this.b.value)
+    const c = this.tSideValCb(+this.c.value)
 
     if (a.isValid && b.isValid && c.isValid) {
-      const t = tValCb([a, b, c])
+      const t = this.tValCb([a.value, b.value, c.value])
 
       if (!t.isValid) {
-        console.log(t.msg)
+        ts.ui.Notification.warning(t.msg)
         return false
       }
 
@@ -84,41 +84,40 @@ class Ui {
     }
 
     if (!a.isValid && showErrors) {
-      console.log(a.msg)
+      ts.ui.Notification.warning(a.msg)
     }
 
     if (!b.isValid && showErrors) {
-      console.log(a.msg)
+      ts.ui.Notification.warning(a.msg)
     }
 
     if (!c.isValid && showErrors) {
-      console.log(a.msg)
+      ts.ui.Notification.warning(a.msg)
     }
 
     return false
   }
 
-  tEvalCb([a, b, c]) {
+  tEvalCb ([a, b, c]) {
     throw new Error('not implemented: f([a, b, c])')
   }
 
-  tSideValCb(s) {
+  tSideValCb (s) {
     throw new Error('not implemented: f(int s)')
   }
 
-  tValCb([a, b, c]) {
+  tValCb ([a, b, c]) {
     throw new Error('not implemented: f([a, b, c])')
   }
 }
 
-
 // drawing module
 const drawTriangle = ([a, b, c] = [1, 1, 1]) => {
-  const cnv = document.querySelector('#drawing'),
-    ctx = cnv.getContext('2d'),
-    start = 4,
-    end = 144,
-    gradient = ctx.createLinearGradient(0, 0, 0, 200)
+  const cnv = document.querySelector('#drawing')
+  const ctx = cnv.getContext('2d')
+  const start = 4
+  const end = 144
+  const gradient = ctx.createLinearGradient(0, 0, 0, 200)
 
   gradient.addColorStop(0, '#0000ff')
   gradient.addColorStop(1, '#00ff00')
@@ -131,14 +130,12 @@ const drawTriangle = ([a, b, c] = [1, 1, 1]) => {
 
   ctx.lineWidth = 4
   ctx.strokeStyle = gradient
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 0;
-  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 0
+  ctx.shadowOffsetY = 0
+  ctx.shadowBlur = 8
   ctx.shadowColor = 'rgba(0, 0, 0, 1)'
   ctx.stroke()
 }
-
-
 
 // triange module
 const typeOfTriangle = ([a, b, c]) => {
@@ -177,18 +174,20 @@ const triangleCongruentSides = ([a, b, c]) => {
 }
 
 const isValidSideValue = (side) => {
-  if (isNaN(side)) return {
-    msg: 'The value should be a number',
+  if (typeof side !== 'number') return {
+    msg: `The value should be a number. (${typeof side}) ${side} provided`,
     isValid: false,
     value: side
   }
+
   if (side <= 0) return {
     msg: 'The value should be greater than 0',
     isValid: false,
     value: side
   }
+
   return {
-    msg: 'sucess',
+    msg: 'The value is a valid side',
     isValid: true,
     value: side
   }
@@ -196,28 +195,28 @@ const isValidSideValue = (side) => {
 
 const isValidTriangle = ([a, b, c]) => {
   if (
-    !isValidSideValue(isValidSideValue(a)) ||
-    !isValidSideValue(isValidSideValue(b)) ||
-    !isValidSideValue(isValidSideValue(c))
+    !isValidSideValue(a).isValid ||
+    !isValidSideValue(b).isValid ||
+    !isValidSideValue(c).isValid
   ) {
-    throw new Error('one of the sides not valid. Use isValidSideValue(int s)')
+    throw new Error('one of the sides not valid. Use isValidSideValue((number) s)')
   }
 
   const max = Math.max(a, b, c)
 
-  if (a === max && b + c >= max) return {
+  if (a === max && b + c <= max) return {
     isValid: false,
-    msg: '!(b + c < a)'
+    msg: '`!(b + c < a)`: the sum of the two smaller sides should be smaller than the greater'
   }
 
-  if (b === max && a + c >= max) return {
+  if (b === max && a + c <= max) return {
     isValid: false,
-    msg: '!(a + c < b)'
+    msg: '`!(a + c < b)`: the sum of the two smaller sides should be smaller than the greater'
   }
 
-  if (c === max && a + b >= max) return {
+  if (c === max && a + b <= max) return {
     isValid: false,
-    msg: '!(a + b < c)'
+    msg: '`!(a + b < c)`: the sum of the two smaller sides should be smaller than the greater'
   }
 
   return {
