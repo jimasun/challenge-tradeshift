@@ -1,3 +1,9 @@
 {
-    "extends": "standard"
+    "extends": "standard",
+    "globals": {
+        "ts": "readable"
+    },
+    "rules": {
+        "curly": "off"
+    }
 }
