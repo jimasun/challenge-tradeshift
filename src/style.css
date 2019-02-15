@@ -1,9 +1,38 @@
-#display {
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#input {
+.triangleDisplay,
+.triangleInput {
+  height: 200px;
+  width: 200px;
 }
 
-#info {
+.triangleDisplay {
+  border: green solid 1px;
+}
 
+.triangleInput fieldset {
+  width: 58px;
+}
+
+.triangleInput .button {
+  display: inline-block;
+  padding: 8px;
+}
+
+.triangleInput .switch {
+  display: inline-block;
+  padding: 8px;
+}
+
+.triangleInput .switch span {
+  margin-top: 2px;
+}
+
+#drawing {
+  width: 200px;
+  height: 200px;
 }

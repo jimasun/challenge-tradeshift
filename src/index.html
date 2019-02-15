@@ -16,24 +16,21 @@
   <div data-ts="App">
     <div data-ts="Main">
       <div data-ts="Content">
-        <div data-ts="Panel">
-          <div id="display">
-            <canvas></canvas>
+        <div class="panel" data-ts="Panel">
+          <div class="triangleDisplay">
+            <canvas id="drawing"></canvas>
           </div>
-          <div id="input">
+          <div class="triangleInput">
             <form data-ts="Form" name="form">
               <fieldset>
-                <label>
-                  <span>a</span>
-                  <input name="a" type="number">
+                <label class="ts-left">
+                  <input name="a" type="number" placeholder="a" autofocus>
                 </label>
-                <label>
-                  <span>b</span>
-                  <input name="b" type="number">
+                <label class="ts-left">
+                  <input name="b" type="number" placeholder="b">
                 </label>
-                <label>
-                  <span>c</span>
-                  <input name="c" type="number">
+                <label class="ts-left">
+                  <input name="c" type="number" placeholder="c">
                 </label>
                 <!-- <dl class="ts-errors">
                   <dt>Error: Triangle side is invalid</dt>
@@ -41,17 +38,20 @@
                   <dd>Must be greater than 0</dd>
                 </dl> -->
               </fieldset>
-              <button data-ts="Button" class="ts-primary" name="button">
-                <span style="display:none;">Evaluate</span>
-                <i class="ts-icon-proceed"></i>
-              </button>
-              <label>
-                <span>auto</span>
-                <input name="switch" type="checkbox">
-              </label>
+              <div class="button">
+                <button data-ts="Button" class="ts-primary" name="button">
+                  <span style="display:none;">Evaluate</span>
+                  <i class="ts-icon-proceed"></i>
+                </button>
+              </div>
+              <div class="switch">
+                <label>
+                  <span>auto:</span>
+                  <input name="switch" type="checkbox">
+                </label>
+              </div>
             </form>
           </div>
-          <div id="info"></div>
         </div>
       </div>
     </div>
