@@ -1,8 +1,10 @@
 // init
 ts.ui.ready(() => {
+  drawTriangle()
   const ui = new Ui()
-  ui.evaluationCallback = typeOfTriangle
-  ui.validateInput = isValidSideValue
+  ui.tEvalCb = typeOfTriangle
+  ui.tSideValCb = isValidSideValue
+  ui.tValCb = isValidTriangle
 })
 
 
@@ -24,49 +26,118 @@ class Ui {
       this.button.disabled =
       this.switch.checked = true
 
-    this.button.addEventListener('click', event => {
-      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
-    })
+    this.button.addEventListener('click', event => this.onButtonClickEventListener(event))
 
-    this.switch.addEventListener('change', event => {
-      this.autoEvaluate = this.button.disabled = !this.autoEvaluate
-      if (this.autoEvaluate) {
-        this.onChangeCallback([this.a.value, this.b.value, this.c.value])
-      }
-    })
+    this.switch.addEventListener('change', event => this.onSwitchChangeEventListener(event))
 
       ;[...form.elements].forEach(element => {
         if (element.type == 'number')
-          element.addEventListener('keydown', event => this.onChangeEventListener(event))
+          element.addEventListener('keydown', event => this.onInputChangeEventListener(event))
       })
   }
 
-  onChangeEventListener(event) {
+  onButtonClickEventListener(event) {
+    if (this.validateTriangle(true)) {
+      this.evaluateTriange([this.a.value, this.b.value, this.c.value])
+    }
+  }
+
+  onSwitchChangeEventListener(event) {
+    this.autoEvaluate = this.button.disabled = !this.autoEvaluate
+    if (this.autoEvaluate && this.validateTriangle(true)) {
+      this.evaluateTriange([this.a.value, this.b.value, this.c.value])
+    }
+  }
+
+  onInputChangeEventListener(event) {
     clearTimeout(this.autoEvaluationTimeoutId)
     this.autoEvaluationTimeoutId = setTimeout(() => {
-      const inputCheck = this.validateInput(event.target.value)
+      const inputCheck = this.tSideValCb(event.target.value)
       if (!inputCheck.isValid) {
         console.log(inputCheck.msg)
         return false
       }
-      if (!this.autoEvaluate) return
-      this.onChangeCallback([this.a.value, this.b.value, this.c.value])
+      if (!this.autoEvaluate || !this.validateTriangle(false)) return
+      this.evaluateTriange([this.a.value, this.b.value, this.c.value])
     }, this.autoEvaluationTimeout)
   }
 
-  onChangeCallback([a, b, c]) {
-    const triange = this.evaluationCallback([a, b, c])
-    ts.ui.Notification.success('The \u25b3 is ' + triange.type + '\r\nThe congruent sides are: ' + triange.cong);
+  evaluateTriange([a, b, c]) {
+    const triange = this.tEvalCb([a, b, c])
+    ts.ui.Notification.info('The **\u25b3** is **' + triange.type + '**\r\nThe congruent sides are: `' + triange.cong + '`');
   }
 
-  evaluationCallback() {
+  validateTriangle(showErrors) {
+    const a = this.tSideValCb(this.a.value),
+      b = this.tSideValCb(this.b.value),
+      c = this.tSideValCb(this.c.value)
+
+    if (a.isValid && b.isValid && c.isValid) {
+      const t = tValCb([a, b, c])
+
+      if (!t.isValid) {
+        console.log(t.msg)
+        return false
+      }
+
+      return true
+    }
+
+    if (!a.isValid && showErrors) {
+      console.log(a.msg)
+    }
+
+    if (!b.isValid && showErrors) {
+      console.log(a.msg)
+    }
+
+    if (!c.isValid && showErrors) {
+      console.log(a.msg)
+    }
+
+    return false
+  }
+
+  tEvalCb([a, b, c]) {
     throw new Error('not implemented: f([a, b, c])')
   }
 
-  validateInput() {
-    throw new Error('not implemented: f(int a)')
+  tSideValCb(s) {
+    throw new Error('not implemented: f(int s)')
+  }
+
+  tValCb([a, b, c]) {
+    throw new Error('not implemented: f([a, b, c])')
   }
 }
+
+
+// drawing module
+const drawTriangle = ([a, b, c] = [1, 1, 1]) => {
+  const cnv = document.querySelector('#drawing'),
+    ctx = cnv.getContext('2d'),
+    start = 4,
+    end = 144,
+    gradient = ctx.createLinearGradient(0, 0, 0, 200)
+
+  gradient.addColorStop(0, '#0000ff')
+  gradient.addColorStop(1, '#00ff00')
+
+  ctx.beginPath()
+  ctx.moveTo(start, end)
+  ctx.lineTo(end, start)
+  ctx.lineTo(end * 2, end)
+  ctx.lineTo(start, end)
+
+  ctx.lineWidth = 4
+  ctx.strokeStyle = gradient
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+  ctx.shadowBlur = 8;
+  ctx.shadowColor = 'rgba(0, 0, 0, 1)'
+  ctx.stroke()
+}
+
 
 
 // triange module
@@ -106,17 +177,51 @@ const triangleCongruentSides = ([a, b, c]) => {
 }
 
 const isValidSideValue = (side) => {
-  const result = {
+  if (isNaN(side)) return {
+    msg: 'The value should be a number',
+    isValid: false,
+    value: side
+  }
+  if (side <= 0) return {
+    msg: 'The value should be greater than 0',
+    isValid: false,
+    value: side
+  }
+  return {
     msg: 'sucess',
-    isValid: true
+    isValid: true,
+    value: side
   }
-  if (isNaN(side)) {
-    result.msg = 'The value should be a number'
-    result.isValid = false
+}
+
+const isValidTriangle = ([a, b, c]) => {
+  if (
+    !isValidSideValue(isValidSideValue(a)) ||
+    !isValidSideValue(isValidSideValue(b)) ||
+    !isValidSideValue(isValidSideValue(c))
+  ) {
+    throw new Error('one of the sides not valid. Use isValidSideValue(int s)')
   }
-  if (side <= 0) {
-    result.msg = 'The value should be greater than 0'
-    result.isValid = false
+
+  const max = Math.max(a, b, c)
+
+  if (a === max && b + c >= max) return {
+    isValid: false,
+    msg: '!(b + c < a)'
   }
-  return result
+
+  if (b === max && a + c >= max) return {
+    isValid: false,
+    msg: '!(a + c < b)'
+  }
+
+  if (c === max && a + b >= max) return {
+    isValid: false,
+    msg: '!(a + b < c)'
+  }
+
+  return {
+    isValid: true,
+    msg: `triangle [${a}, ${b}, ${c}] is valid`
+  }
 }

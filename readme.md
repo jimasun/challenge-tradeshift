@@ -26,3 +26,7 @@ Allocated time:
 * 20mins added some Tradeshift UI elements
 * 30mins advancing with the UI implementation
 * 20mins added some validation
+* 20mins timeout and display
+
+#todo
+* proper input validation error display
