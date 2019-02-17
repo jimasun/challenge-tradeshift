@@ -1,9 +1,9 @@
-import Ui from 'modules/ui'
-import drawTriangle from 'modules/drawTriangle'
+import Ui from './modules/ui'
+import drawTriangle from './modules/drawTriangle'
 import {
   typeOfTriangle,
   isValidSideValue, isValidTriangle
-} from 'modules/triangle'
+} from './modules/triangle'
 
 ts.ui.ready(() => {
   drawTriangle()

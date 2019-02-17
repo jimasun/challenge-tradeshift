@@ -3,7 +3,6 @@
 In this file I'm going to describe my process which is going to be structured similar to a journal.
 
 ##Task description
-Allocated time: 30mins understanding the task, skimming through the Tradeshift UI documentation
 
 Write a program that will determine the type of a triangle. It should take the lengths of the triangle's three sides as input, and return whether the triangle is equilateral, isosceles or scalene.
 
@@ -17,6 +16,7 @@ The resulting code and discussion is vital for us and will be used as a way for 
 Please put the solution up on GitHub and send the link to me. If you have some other code that you are proud of then please send that too.
 
 ##Getting started
+
 Allocated time:
 
 * 30mins going a bit deeper through the Tradeshift UI documentation
