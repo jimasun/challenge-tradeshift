@@ -1,3 +1,4 @@
+import './style.css'
 import Ui from './modules/ui'
 import drawTriangle from './modules/drawTriangle'
 import {
