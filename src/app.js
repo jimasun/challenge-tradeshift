@@ -3,7 +3,8 @@ import Ui from './modules/ui'
 import drawTriangle from './modules/drawTriangle'
 import {
   typeOfTriangle,
-  isValidSideValue, isValidTriangle
+  isValidSideValue,
+  isValidTriangle
 } from './modules/triangle'
 
 ts.ui.ready(() => {
