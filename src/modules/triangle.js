@@ -38,6 +38,12 @@ const triangleCongruentSides = ([a, b, c]) => {
 }
 
 const isValidSideValue = (side) => {
+  if (isNaN(side)) return {
+    msg: `The value should be a number. NaN provided`,
+    isValid: false,
+    value: side
+  }
+
   if (typeof side !== 'number') return {
     msg: `The value should be a number. (${typeof side}) ${side} provided`,
     isValid: false,
