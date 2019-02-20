@@ -15,18 +15,33 @@ The resulting code and discussion is vital for us and will be used as a way for 
 
 Please put the solution up on GitHub and send the link to me. If you have some other code that you are proud of then please send that too.
 
-##Getting started
+##Discussion
 
-Allocated time:
+###Setup
 
-* 30mins going a bit deeper through the Tradeshift UI documentation
-* 15mins boilerplate setup
-* 20mins basic triangle functions
-* 20mins basic UI functionality
-* 20mins added some Tradeshift UI elements
-* 30mins advancing with the UI implementation
-* 20mins added some validation
-* 20mins timeout and display
+I have aimed to have a setup which requires a minimum intervention in the sense that everything should be automated from the point of writing code to delivery. This is why you see integration with `git` for scm and collaboration, `webpack` for bundling, `babel` for transpiling ES6+ syntax and `eslint` for keeping the code tidy especially when working in a team. One cal live without but automation saves lots of time and more important, it keeps away from human-error.
 
-#todo
-* proper input validation error display
+###Code
+
+I have aimed to keep things clean with good separation of concerns and use of ES `modules`. I am still learning about functional JS though.
+
+As for the `Triangle` module, I could have written it as a `class`, with constroctor and properties which would hold the values of the sides as well as things such as `error` and `message`, etc.
+
+The `Ui` module is separated of knowledge about triangle even though it is heighly dependent on it. I like it this way because changes to the UI should not affect how triangles are being calculated and vice versa. Of course there might be cases where requirements would demand changes on both sides. In the current scenario, the triangle functionality could even move the a remote server, with small adaptation.
+
+`drawTriangles` is a WIP but I wanted to have an image there anyway.
+
+###Test
+
+I have choosen `ava` because it was easy to setup. Jasmine/Jest were consider and even though I like the BDD style of tests better using the `describe` I have decided to go with `ava`. It uses `babel` under the hood and I am using `esm` for it to support `import`/`export`.
+
+I have focused only on the `Triangle` module trying to cover all possible scenarios for the 3 public methods that I wrote. An improvement for larger scale is to test all methods.
+
+For larger applicatins, writing UI tests could be cosidered based on available resources. Writing an UI based on components would greately benefit the test coverage.
+
+I have mostly used `assert` but I also employed `spy` (even though there is something not functioniing I have decided to leave the code as an example).
+
+
+###Conclusions
+
+It is not perfect but I am excited to receive your feedback and learn more. If I would work in a team I would certanly draw inspiration from other coders.
