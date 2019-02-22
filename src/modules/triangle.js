@@ -7,7 +7,7 @@ export default class Triangle {
    * Constructor optionally taking arguments
    * @param {number[]} [sides] The sides of the triangle
    */
-  constructor ([a, b, c]) {
+  constructor ([a, b, c] = [null, null, null]) {
     this.a = a
     this.b = b
     this.c = c
@@ -55,7 +55,7 @@ export default class Triangle {
    * @returns {string} `return.msg` eventual error messages
    * @throws {Error} Throws when side(s) not valid
    */
-  sValidTriangle ([a, b, c] = [this.a, this.b, this.c]) {
+  isValidTriangle ([a, b, c] = [this.a, this.b, this.c]) {
     if (
       !this.isValidSideValue(a).isValid ||
       !this.isValidSideValue(b).isValid ||

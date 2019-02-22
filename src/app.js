@@ -1,16 +1,13 @@
 import './style.css'
 import Ui from './modules/ui'
+import Triangle from './modules/triangle'
 import drawTriangle from './modules/drawTriangle'
-import {
-  typeOfTriangle,
-  isValidSideValue,
-  isValidTriangle
-} from './modules/triangle'
 
 ts.ui.ready(() => {
   drawTriangle()
   const ui = new Ui()
-  ui.tEvalCb = typeOfTriangle
-  ui.tSideValCb = isValidSideValue
-  ui.tValCb = isValidTriangle
+  const triangle = new Triangle()
+  ui.tEvalCb = triangle.typeOfTriangle
+  ui.tSideValCb = triangle.isValidSideValue
+  ui.tValCb = triangle.isValidTriangle
 })
