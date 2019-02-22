@@ -5,6 +5,19 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
   mode: 'development',
   entry: './src/app.js',
+  devtool: 'source-map',
+  // devServer: {
+  //   publicPath: '/dist/',
+  //   contentBase: path.join(__dirname, 'dist'),
+  //   watchContentBase: true,
+  //   inline: true
+  // },
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 300,
+    ignored: ['/node_modules/'],
+    poll: 1000
+  },
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist')
@@ -21,13 +34,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.m?js$/,
+        exclude: /node_modules/,
         use: [
           'babel-loader'
         ]
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader'
@@ -47,6 +62,6 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.webpack.js', '.web.js', '.js', '.json', '.jsx']
+    extensions: ['*', '.webpack.js', '.web.js', '.js', '.mjs', '.json', '.jsx']
   }
 }

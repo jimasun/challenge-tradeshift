@@ -8,7 +8,7 @@
     "start:dev": "webpack-dev-server",
     "build:dev": "webpack",
     "build:prd": "webpack --optimize-minimize",
-    "build:bbl": "babel src -o ./dist/bundle.js"
+    "build:bbl": "babel src -o ./dist/bundle.js --watch"
   },
   "repository": {
     "type": "git",

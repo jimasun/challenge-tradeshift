@@ -1,6 +1,7 @@
 {
   "minified": false,
-  "sourceMaps": false,
+  "sourceMaps": true,
+  "retainLines": true,
   "include": [
     "./src"
   ],
