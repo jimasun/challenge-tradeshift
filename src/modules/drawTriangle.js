@@ -1,5 +1,12 @@
-const drawTriangle = ([a, b, c] = [1, 1, 1]) => {
-  const cnv = document.querySelector('#drawing')
+/**
+ * Draws a triang on a canvas
+ * @param {HTMLCanvasElement} cnv The canvas where to draw
+ * @param {number[]} [sides] The sides of the triangle
+ */
+const drawTriangle = (cnv, [a, b, c] = [1, 1, 1]) => {
+  if (cnv instanceof HTMLCanvasElement) {
+    throw new TypeError('')
+  }
   const ctx = cnv.getContext('2d')
   const start = 4
   const end = 144
