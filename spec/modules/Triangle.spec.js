@@ -14,18 +14,18 @@ test('isValidSideValue(int s)', t => {
 })
 
 test('isValidTriangle([a, b, c])', t => {
-  const s = t.context.spy(triangle, 'isValidSideValue') // NOT WORKING
+  const s = t.context.spy(triangle, 'isValidSideValue')
   t.false(triangle.isValidTriangle([1, 4, 2]).isValid, 'a+c<b [1, 4, 2]')
-  t.is(s.calls.length, 0, '3xisValidSideValue')
+  t.is(s.calls.length, 3, '(3) isValidSideValue')
   t.true(triangle.isValidTriangle([2, 3, 2]).isValid, 'a+c<b [2, 3, 2]')
-  t.is(s.calls.length, 0, '3xisValidSideValue')
+  t.is(s.calls.length, 6, '(3) isValidSideValue')
   t.throws(() => { triangle.isValidTriangle([-1, 4, 2]) }, Error, 'throw new Error')
 })
 
 test('typeOfTriangle([a, b, c])', t => {
-  t.is(Triangle.typeOfTriangle([1, 1, 1]).type, 'equilateral', 'equilateral')
-  t.is(Triangle.typeOfTriangle([2, 1.5, 1.5]).type, 'isoscel', 'isoscel')
-  t.is(Triangle.typeOfTriangle([2.5, 4, 2.5]).type, 'isoscel', 'isoscel')
-  t.is(Triangle.typeOfTriangle([7, 2, 6]).type, 'scalane', 'scalane')
-  t.throws(() => { Triangle.typeOfTriangle([1, 4, 2]) }, Error, 'throw new Error')
+  t.is(triangle.typeOfTriangle([1, 1, 1]).type, 'equilateral', 'equilateral')
+  t.is(triangle.typeOfTriangle([2, 1.5, 1.5]).type, 'isoscel', 'isoscel')
+  t.is(triangle.typeOfTriangle([2.5, 4, 2.5]).type, 'isoscel', 'isoscel')
+  t.is(triangle.typeOfTriangle([7, 2, 6]).type, 'scalane', 'scalane')
+  t.throws(() => { triangle.typeOfTriangle([1, 4, 2]) }, Error, 'throw new Error')
 })
